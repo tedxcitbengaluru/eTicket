@@ -33,6 +33,8 @@ for i in range (1, 4):
         print("Base Ticket Recieved")
     
     destinationPath = "D:\CS\QR\OfflineTickets\product\\"
+    
+    #writing to new ticket file
     with open(destinationPath+ticketFileName, "w") as targetTicket:
         targetTicket.write(mySVG)
         print("Ticket", i, "generated!")
