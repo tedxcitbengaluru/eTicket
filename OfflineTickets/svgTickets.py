@@ -28,18 +28,19 @@ for i in range (0, len(uuids) + 1):
         ticketNumber = str(i) #ticket number here (001 to 200)
     
     ticketFileName = "Ticket_"+ticketNumber+".svg"
-    templateTicket = r"D:\CS\QR\OfflineTickets\templateTicket.svg" #location
+    templateTicket = "/OfflineTickets/templateTicket.svg" #location of template ticket
 
     #Reading template .svg file "templateTicket.svg" to replace data
     with open(templateTicket, "r") as ticTemplate:
         #encoded_string = base64.b64encode(img_file.read())
         mySVG = ticTemplate.read()
         #sending the ticket number and the qr image to the svg file
+        # DO NOT FUCK WITH THE NEXT TWO LINES. Made it work somehow.
         mySVG = mySVG.replace("{{TicketNumber}}", ticketNumber)
         mySVG = mySVG.replace("{{QR_IMAGE}}", base64_qrstring)
         print("Base Ticket Recieved")
     
-    destinationPath = r"D:/CS/QR/OfflineTickets/product/"
+    destinationPath = r"/OfflineTickets/product/"
     
     #writing to new ticket file
     with open(destinationPath+ticketFileName, "w") as targetTicket:

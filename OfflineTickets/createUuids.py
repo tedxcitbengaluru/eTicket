@@ -1,6 +1,8 @@
 import csv
 import uuid
 
+# Use this only once. Once generated, PLEASE FOR THE LOVE OF GOD DO NOT RUN THIS CODE AGAIN.
+# ALWAYS PUSH TO GITHUB. KEEP RECORD OF THE UUIDS
 uuids = []
 
 for i in range(201):
