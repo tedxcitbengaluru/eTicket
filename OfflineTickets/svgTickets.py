@@ -3,6 +3,7 @@ import base64
 import csv
 
 # uuids to be made - 200 unique codes in this array - later to be converted to .csv to be exported into the main spreadsheet
+
 uuids = []
 # uuidFileLocation = r"D:\CS\QR\OfflineTickets"
 with open("uuids.csv", "r", newline="") as uuid_file:
@@ -14,7 +15,7 @@ with open("uuids.csv", "r", newline="") as uuid_file:
 for i in range (0, len(uuids) + 1):
     #Making QR code for specific uuid using google API:
     qrlink = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={data}"
-    qrlink = qrlink.replace("{data}", uuids[i - 1]); #uuid array to be made
+    qrlink = qrlink.replace("{data}", uuids[i]); #uuid array to be made
 
     #converting the said qr to base64 string to send it to the .svg file:
     response = requests.get(qrlink)
