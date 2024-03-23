@@ -1,13 +1,20 @@
 import requests
 import base64
+import csv
 
 # uuids to be made - 200 unique codes in this array - later to be converted to .csv to be exported into the main spreadsheet
-uuid = ["e130cff4-7c5a-4886-bdba-175efd71ef9c", "9babfa2d-0dde-41c8-82bb-f401815d1822", "549a707d-42b5-4c80-a30a-33a97ceea1a3"]
+uuids = []
+# uuidFileLocation = r"D:\CS\QR\OfflineTickets"
+with open("uuids.csv", "r", newline="") as uuid_file:
+    reader = csv.reader(uuid_file)
+    for row in reader:
+        uuids.append(row[0])
 
-for i in range (1, 4):
+
+for i in range (0, len(uuids) + 1):
     #Making QR code for specific uuid using google API:
     qrlink = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={data}"
-    qrlink = qrlink.replace("{data}", uuid[i - 1]); #uuid array to be made
+    qrlink = qrlink.replace("{data}", uuids[i - 1]); #uuid array to be made
 
     #converting the said qr to base64 string to send it to the .svg file:
     response = requests.get(qrlink)
@@ -21,7 +28,7 @@ for i in range (1, 4):
         ticketNumber = str(i) #ticket number here (001 to 200)
     
     ticketFileName = "Ticket_"+ticketNumber+".svg"
-    templateTicket = "D:\CS\QR\OfflineTickets\\templateTicket.svg" #location
+    templateTicket = r"D:\CS\QR\OfflineTickets\templateTicket.svg" #location
 
     #Reading template .svg file "templateTicket.svg" to replace data
     with open(templateTicket, "r") as ticTemplate:
@@ -32,7 +39,7 @@ for i in range (1, 4):
         mySVG = mySVG.replace("{{QR_IMAGE}}", base64_qrstring)
         print("Base Ticket Recieved")
     
-    destinationPath = "D:\CS\QR\OfflineTickets\product\\"
+    destinationPath = r"D:/CS/QR/OfflineTickets/product/"
     
     #writing to new ticket file
     with open(destinationPath+ticketFileName, "w") as targetTicket:
