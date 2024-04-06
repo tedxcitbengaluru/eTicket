@@ -35,12 +35,14 @@ for i in range (len(uuids)):
         mySVG = mySVG.replace("{{TicketNumber}}", "TRNO: " + ticketNumber)
         mySVG = mySVG.replace("{{QR_IMAGE}}", base64_qrstring)
         print("Base Ticket Recieved")
-
-    svg2png(byte_string=mySVG, write_to="product/"+ticketNumber+".png")
+        destinationPath = r"product/"+ticketFileName
+        
+        #writing to new ticket file
+    with open(destinationPath, "w") as targetTicket:
+        targetTicket.write(mySVG)
+        print("Ticket", ticketNumber, "generated!")
     
-    # destinationPath = r"product/"
+    # svg2png(url=destinationPath, write_to="product/"+ticketNumber+".png")
     
-    # #writing to new ticket file
-    # with open(destinationPath+ticketFileName, "w") as targetTicket:
-    #     targetTicket.write(mySVG)
-    #     print("Ticket", ticketNumber, "generated!")
+    
+    
