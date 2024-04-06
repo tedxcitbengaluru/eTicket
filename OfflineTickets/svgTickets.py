@@ -2,6 +2,8 @@ import requests
 import base64
 import csv
 
+from cairosvg import svg2png
+
 uuids = []
 # uuidFileLocation = r"D:\CS\QR\OfflineTickets"
 with open("uuids.csv", "r", newline="") as uuid_file:
@@ -33,10 +35,12 @@ for i in range (len(uuids)):
         mySVG = mySVG.replace("{{TicketNumber}}", "TRNO: " + ticketNumber)
         mySVG = mySVG.replace("{{QR_IMAGE}}", base64_qrstring)
         print("Base Ticket Recieved")
+
+    svg2png(byte_string=mySVG, write_to="product/"+ticketNumber+".png")
     
-    destinationPath = r"product/"
+    # destinationPath = r"product/"
     
-    #writing to new ticket file
-    with open(destinationPath+ticketFileName, "w") as targetTicket:
-        targetTicket.write(mySVG)
-        print("Ticket", ticketNumber, "generated!")
+    # #writing to new ticket file
+    # with open(destinationPath+ticketFileName, "w") as targetTicket:
+    #     targetTicket.write(mySVG)
+    #     print("Ticket", ticketNumber, "generated!")
