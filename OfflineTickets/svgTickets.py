@@ -7,25 +7,19 @@ uuids = []
 with open("uuids.csv", "r", newline="") as uuid_file:
     reader = csv.reader(uuid_file)
     for row in reader:
-        uuids.append(row[0])
+        uuids.append(row)
 
 
-for i in range (1, 51):
+for i in range (len(uuids)):
     #Making QR code for specific uuid using google API:
     qrlink = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={data}"
-    qrlink = qrlink.replace("{data}", uuids[i - 1]); #uuid array to be made
+    qrlink = qrlink.replace("{data}", uuids[i][1]); #uuid array to be made
 
     #converting the said qr to base64 string to send it to the .svg file:
     response = requests.get(qrlink)
     base64_qrstring = base64.b64encode(response.content).decode('utf-8')
 
-    ticketNumber = ""
-    if i <= 9:
-        ticketNumber = "00" + str(i)
-    elif i <= 99:
-        ticketNumber = "0"+str(i)
-    else:
-        ticketNumber = str(i) #ticket number here (001 to 200)
+    ticketNumber = uuids[i][0]
     
     ticketFileName = "Ticket_"+ticketNumber+".svg"
     templateTicket = "templateTicket.svg" #location of template ticket
@@ -36,7 +30,7 @@ for i in range (1, 51):
         mySVG = ticTemplate.read()
         #sending the ticket number and the qr image to the svg file
         # DO NOT FUCK WITH THE NEXT TWO LINES. Made it work somehow.
-        mySVG = mySVG.replace("{{TicketNumber}}", ticketNumber)
+        mySVG = mySVG.replace("{{TicketNumber}}", "TRNO: " + ticketNumber)
         mySVG = mySVG.replace("{{QR_IMAGE}}", base64_qrstring)
         print("Base Ticket Recieved")
     
@@ -45,4 +39,4 @@ for i in range (1, 51):
     #writing to new ticket file
     with open(destinationPath+ticketFileName, "w") as targetTicket:
         targetTicket.write(mySVG)
-        print("Ticket", i, "generated!")
+        print("Ticket", ticketNumber, "generated!")
