@@ -10,7 +10,7 @@ with open("uuids.csv", "r", newline="") as uuid_file:
         uuids.append(row[0])
 
 
-for i in range (1, len(uuids) + 1):
+for i in range (1, 51):
     #Making QR code for specific uuid using google API:
     qrlink = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={data}"
     qrlink = qrlink.replace("{data}", uuids[i - 1]); #uuid array to be made
@@ -18,6 +18,7 @@ for i in range (1, len(uuids) + 1):
     #converting the said qr to base64 string to send it to the .svg file:
     response = requests.get(qrlink)
     base64_qrstring = base64.b64encode(response.content).decode('utf-8')
+
     ticketNumber = ""
     if i <= 9:
         ticketNumber = "00" + str(i)
